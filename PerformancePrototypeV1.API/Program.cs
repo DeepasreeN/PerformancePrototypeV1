@@ -11,7 +11,7 @@ builder.Services.AddDbContextPool<InformationDBContext>(options =>
     options.UseSqlServer(connectionString));
 
 //"Server=localhost\\MSSQLSERVER01;Database=master;Trusted_Connection=True;"
-// Server -- DEEPA/MSSQLSERVER01 user -- "DEEPA\\dnali"
+//Server -- DEEPA/MSSQLSERVER01 user -- "DEEPA\\dnali"
 
 builder.Services.AddControllers();
 
