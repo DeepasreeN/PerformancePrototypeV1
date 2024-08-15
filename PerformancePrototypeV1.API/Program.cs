@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PerformancePrototypeV1.API.DAL;
 using PerformancePrototypeV1.API.DAL.Repositories;
+using PerformancePrototypeV1.API.Middleware;
 using PerformancePrototypeV1.API.Service.Transaction;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,7 @@ builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", policy =>
@@ -31,10 +33,14 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
+builder.Services.AddLogging();
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 var app = builder.Build();
 
 app.UseCors("AllowSpecificOrigin");
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

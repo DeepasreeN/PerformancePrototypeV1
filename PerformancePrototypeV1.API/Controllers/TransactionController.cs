@@ -19,6 +19,7 @@ namespace PerformancePrototypeV1.API.Controllers
         [HttpGet]
         public async Task<ApiResponse<IEnumerable<TransactionDetail>>> Get()
         {
+            
             var data = await _transactionService.GetAllTransactionData();
             if (data == null)
             {
